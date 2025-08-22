@@ -49,10 +49,10 @@ Residual versions of “Medium” and “Large” MLPs were implemented using th
 
 | Model               |hidden size |n. res. blocks|n. epochs | Test Loss  | Test Accuracy (%) |
 |---------------------|------------|--------------|----------|------------|------------|
-| Medium MLP          | 10         |0             |29        | 0.2394     | 93.22      |
+| Medium MLP          | 10         |0             |13        | 0.2465     | 92.75      |
 | Medium Residual MLP | 10         |3             |11        | 0.1796     | 94.59      |
-| Large MLP           | 64         |0             |24        | 0.0876     | 97.53      |
-| Large Residual MLP  | 64         |3             |9         | 0.1039     | 97.09      |
+| Large MLP           | 64         |0             |14        | 0.0915     | 97.35      |
+| Large Residual MLP  | 64         |3             |8         | 0.0981     | 97.10      |
 
 
 
