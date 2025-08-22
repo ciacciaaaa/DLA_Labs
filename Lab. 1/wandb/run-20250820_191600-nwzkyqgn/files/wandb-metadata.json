@@ -1,0 +1,36 @@
+{
+  "os":  "macOS-15.5-arm64-arm-64bit-Mach-O",
+  "python":  "CPython 3.13.5",
+  "startedAt":  "2025-08-20T17:16:00.385957Z",
+  "program":  "/Users/giulia/Desktop/UniFi/Magistrale/DLA/DLA_Labs/Lab. 1/Lab1_CNNs.ipynb",
+  "codePath":  "Lab. 1/Lab1_CNNs.ipynb",
+  "codePathLocal":  "Lab1_CNNs.ipynb",
+  "git":  {
+    "remote":  "https://github.com/ciacciaaaa/DLA_Labs.git",
+    "commit":  "81fe487902a5f3087998ce5146f2850203943c4a"
+  },
+  "email":  "giulia.ciacci@edu.unifi.it",
+  "root":  "/Users/giulia/Desktop/UniFi/Magistrale/DLA/DLA_Labs/Lab. 1",
+  "host":  "MacBook-Pro-di-Giulia-3.local",
+  "executable":  "/opt/anaconda3/envs/DLA/bin/python",
+  "cpu_count":  14,
+  "cpu_count_logical":  14,
+  "disk":  {
+    "/":  {
+      "total":  "994662584320",
+      "used":  "161893261312"
+    }
+  },
+  "memory":  {
+    "total":  "38654705664"
+  },
+  "apple":  {
+    "name":  "Apple M4 Max",
+    "ecpuCores":  4,
+    "pcpuCores":  10,
+    "gpuCores":  32,
+    "memoryGb":  36,
+    "ramTotalBytes":  "38654705664"
+  },
+  "writerId":  "zff6f6h4rjxk7j1sdfm0wyvpywg8htbk"
+}
