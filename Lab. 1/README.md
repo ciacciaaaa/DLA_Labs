@@ -31,11 +31,11 @@ Among the three variants, the Large MLP (hidden size = 64) achieved the best per
 
 | Model      |hidden size | Test Loss  | Test Accuracy (%) |
 |----------  |------------|------------|------------|
-| Small MLP  | 3          | 0.7237       | 79.33         |
-| Medium MLP | 10         | 0.2394       | 93.22         |
-| Large MLP  | 64         | 0.0876       | 97.53         |
+| Small MLP  | 3          | 0.9470       | 69.92         |
+| Medium MLP | 10         | 0.2465       | 92.75         |
+| Large MLP  | 64         | 0.0915       | 97.35         |
 
-**add image**
+![MLPs comparison](./images/LC_MLP_confronto_1.png)
 
 ### Exercise 1.2: Adding Residual Connections
 
