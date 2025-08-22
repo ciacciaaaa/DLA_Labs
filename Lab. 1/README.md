@@ -81,9 +81,9 @@ The deeper **CNN** significantly outperforms the simple baseline, achieving ~79%
 
 Surprisingly, **ResNet-18** underperforms compared to the custom CNN, reaching only ~75% validation accuracy. Although residual connections allow deeper networks to train more effectively, this result highlights that **deeper is not always better**, especially when training conditions (e.g., learning rate schedules, data augmentation, or regularization) are not fully optimized for very deep models. It is important to note that these networks were not heavily optimized, since the purpose of this exercise is not to achieve state-of-the-art performance but rather to illustrate the effect of depth and residual connections on training dynamics.
 
-<p float="left">
-  <img src="./images/CNNs_comparison_loss.svg" width="200" />
-  <img src="./images/CNNs_comparison_acc.svg" width="200" />
+<p float="center">
+  <img src="./images/CNNs_comparison_loss.svg" width="500" />
+  <img src="./images/CNNs_comparison_acc.svg" width="500" />
 </p>
 
 
