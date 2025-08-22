@@ -81,7 +81,10 @@ The deeper **CNN** significantly outperforms the simple baseline, achieving ~79%
 
 Surprisingly, **ResNet-18** underperforms compared to the custom CNN, reaching only ~75% validation accuracy. Although residual connections allow deeper networks to train more effectively, this result highlights that **deeper is not always better**, especially when training conditions (e.g., learning rate schedules, data augmentation, or regularization) are not fully optimized for very deep models. It is important to note that these networks were not heavily optimized, since the purpose of this exercise is not to achieve state-of-the-art performance but rather to illustrate the effect of depth and residual connections on training dynamics.
 
-**add image** wandb comparison
+<p float="left">
+  <img src="./images/CNNs_comparison_loss.svg" width="200" />
+  <img src="./images/CNNs_comparison_acc.svg" width="200" />
+</p>
 
 
 ### Exercise 2.1: Fine-tune a pre-trained model
@@ -100,4 +103,4 @@ These results are disappointing, highlighting the challenges of transferring a m
 In this exercise, we use Class Activation Maps (CAMs) to visualize which regions of an image a CNN attends to when making predictions. This technique helps understand the spatial focus of a trained network for discriminative classification. 
 For this specific purpose the [pytorch-grad-cam](https://github.com/jacobgil/pytorch-grad-cam) package was used. 
 
-**add image**
+![GradCam](./images/gradcam_2.png)
