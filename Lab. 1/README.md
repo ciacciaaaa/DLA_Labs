@@ -35,7 +35,10 @@ Among the three variants, the Large MLP (hidden size = 64) achieved the best per
 | Medium MLP | 10         | 0.2465       | 92.75         |
 | Large MLP  | 64         | 0.0915       | 97.35         |
 
-![MLPs comparison](./images/LC_MLP_confronto_1.png)
+<p float="center">
+  <img src="./images/MLPs_comparison_loss.svg" width="500" />
+  <img src="./images/MLPs_comparison_acc.svg" width="500" />
+</p>
 
 ### Exercise 1.2: Adding Residual Connections
 
