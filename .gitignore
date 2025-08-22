@@ -232,3 +232,12 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+# Evita di tracciare dataset e modelli pesanti
+*.pth
+*.pt
+*.tar.gz
+*.zip
+Lab. 1/data/
+Lab. 1/models/
