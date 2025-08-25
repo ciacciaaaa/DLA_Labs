@@ -157,3 +157,44 @@ def finetune_clip(dataset, model_id="openai/clip-vit-base-patch16",
         print(f"Epoch {epoch+1}, Loss: {total_loss/len(loader):.4f}")
 
     return model
+
+
+def ft_evaluation(dataset, model, processor, batch_size=64):
+    if "human_label" not in dataset["train"].column_names:
+        raise ValueError("La colonna 'human_label' non è presente nel dataset. Esegui il mapping prima.")
+
+    classnames = dataset["train"].unique("human_label")
+    class2id = {c: i for i, c in enumerate(classnames)}
+
+    model.to(DEVICE).eval()
+
+    with torch.no_grad():
+        text_inputs = processor(
+            text=[f"a photo of a {c}" for c in classnames],
+            return_tensors="pt", padding=True
+        ).to(DEVICE)
+        text_embs = model.get_text_features(**text_inputs)
+        text_embs = text_embs / text_embs.norm(dim=-1, keepdim=True)
+
+    loader = DataLoader(
+        dataset["validation"],
+        batch_size=batch_size,
+        shuffle=False,
+        collate_fn=lambda batch: collate_human_labels(batch, processor, class2id)
+    )
+
+    correct, total = 0, 0
+    with torch.no_grad():
+        for inputs, labels in loader:
+            inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
+            labels = labels.to(DEVICE)
+
+            img_embs = model.get_image_features(**inputs)
+            img_embs = img_embs / img_embs.norm(dim=-1, keepdim=True)
+
+            logits = img_embs @ text_embs.T
+            preds = logits.argmax(dim=-1)
+            correct += (preds == labels).sum().item()
+            total += labels.size(0)
+
+    return correct / total
