@@ -94,15 +94,7 @@ This experiment highlighted a significant trade-off between **adversarial robust
 
 ### Exercise 3.3: Experiment with *targeted* adversarial attacks
 
-Of course. Here is a short, narrative-style README for Exercise 3.3.
-
-***
-
-### README: Exercise 3.3 - Targeted Adversarial Attacks with FGSM
-
-### Targeted FGSM Attack
-
-In __targeted_ attacks, instead of perturbing the input image to maximize the loss with respect to its true label, the attack is to *minimize* the loss with respect to the desired target label. This is achieved by moving the input image's pixels in the opposite direction of the gradient sign, effectively performing a one-step gradient descent towards the target class.
+In __targeted__ attacks, instead of perturbing the input image to maximize the loss with respect to its true label, the attack is to *minimize* the loss with respect to the desired target label. This is achieved by moving the input image's pixels in the opposite direction of the gradient sign, effectively performing a one-step gradient descent towards the target class.
 
 $$x_{\text{adv}} = x - \epsilon \cdot \text{sign}(\nabla_{x} J(\theta, x, y_{\text{target}}))$$
 
