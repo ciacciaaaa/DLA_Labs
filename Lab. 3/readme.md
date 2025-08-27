@@ -52,7 +52,7 @@ print("Sample phrase:", ds_train['text'][idx])
 print("Token IDs:", input["input_ids"], "\n")
 print(output)
 ```
-```
+```output
 {Sample phrase: the story , like life , refuses to be simple , and the result is a compelling slice of awkward emotions .
 Token IDs: tensor([[  101,  1996,  2466,  1010,  2066,  2166,  1010, 10220,  2000,  2022,
           3722,  1010,  1998,  1996,  2765,  2003,  1037, 17075, 14704,  1997,
