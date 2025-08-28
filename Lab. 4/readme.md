@@ -29,10 +29,10 @@ The first detection strategy was based on the confidence score of a standard cla
 To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, to measure its confidence on new images, the __maximum logit__ value from the model's final layer was used as a score. This method showed a separation between the score distributions for ID and OOD data as we can observe from the histogram. Then this separation ability was quantitatively measured using the Area Under the Receiver Operating Characteristic (__ROC__) curve, achieving an AUC score of __0.79__. This result confirms that model confidence can serve as a useful score for OOD detection.
 
 <p float="center">
-  <img src="./images/Logit_real_example.png" width="800" />
+  <img src="./images/Logit_real_example.png" width="1000" />
 </p>
 <p float="center">
-  <img src="./images/Logit_fake_example.png" width="800" />
+  <img src="./images/Logit_fake_example.png" width="1000" />
 </p>
 
 <p float="center">
