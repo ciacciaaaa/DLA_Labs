@@ -16,8 +16,8 @@ This exercise explores the implementation and evaluation of a simple pipeline fo
 To create a clear OOD scenario, the CIFAR-10 dataset was chosen as the In-Distribution (ID) source, while for the Out-of-Distribution (OOD) data random noise images were generated using ```torchvision.datasets.FakeData```.
 
 <p float="center">
-  <img src="./images/OOD_example.png" width="200" />
-  <img src="./images/ID_example.png" width="200" />
+  <img src="./images/OOD_example.png" width="300" />
+  <img src="./images/ID_example.png" width="300" />
 </p>
 
 The idea is to develop a method that can discriminate CIFAR-10 images from random inputs using a model trained only on the ID data. To do so two distinct approaches were investigated:
@@ -29,15 +29,15 @@ The first detection strategy was based on the confidence score of a standard cla
 To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, to measure its confidence on new images, the __maximum logit__ value from the model's final layer was used as a score. This method showed a separation between the score distributions for ID and OOD data as we can observe from the histogram. Then this separation ability was quantitatively measured using the Area Under the Receiver Operating Characteristic (__ROC__) curve, achieving an AUC score of __0.79__. This result confirms that model confidence can serve as a useful score for OOD detection.
 
 <p float="center">
-  <img src="./images/Logit_real_example.png" width="600" />
+  <img src="./images/Logit_real_example.png" width="800" />
 </p>
 <p float="center">
-  <img src="./images/Logit_fake_example.png" width="600" />
+  <img src="./images/Logit_fake_example.png" width="800" />
 </p>
 
 <p float="center">
-  <img src="./images/max_logit_score_cnn.png" width="300" />
-  <img src="./images/max_logit_histo_cnn.png" width="300" />
+  <img src="./images/max_logit_score_cnn.png" width="500" />
+  <img src="./images/max_logit_histo_cnn.png" width="500" />
 </p>
 
 #### 2) OOD Detection via Reconstruction Error:
