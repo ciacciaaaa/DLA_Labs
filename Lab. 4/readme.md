@@ -17,9 +17,7 @@ To create a clear OOD scenario, the CIFAR-10 dataset was chosen as the In-Distri
 
 <p float="center">
   <img src="./images/OOD_example.png" width="500" />
-  <figcaption align="center">OOD example</figcaption>
   <img src="./images/ID_example.png" width="500" />
-  <figcaption align="center">ID example</figcaption>
 </p>
 
 The idea is to develop a method that can discriminate CIFAR-10 images from random inputs using a model trained only on the ID data. To do so two distinct approaches were investigated:
