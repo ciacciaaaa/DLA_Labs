@@ -38,7 +38,7 @@ To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, 
 <p float="center">
 <!-- <img src="./images/max_logit_score_cnn.png" width="400" />  --> 
   <img src="./images/max_logit_histo_cnn.png" width="500" />
-  <img src="./images/ROC_max_logit.png" width="400" />
+  <img src="./images/ROC_max_logit.png" width="350" />
 </p>
 
 #### 2) OOD Detection via Reconstruction Error:
@@ -46,8 +46,9 @@ To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, 
 An alternative approach was also investigated using an __Autoencoder__'s reconstruction error. An autoencoder is a specialized network trained to compress and then accurately reconstruct its input. The idea is that this network should be expert in reconstructing familiar CIFAR-10 images but struggle to reconstruct the random OOD images. The __Mean Squared Error (MSE)__ between an original image and its reconstruction was used as score. This method proved to work well, as the reconstruction errors for OOD samples were consistently higher than for ID samples. This method obtained an AUC score of __0.82__ .
 
 <p float="center">
-  <img src="./images/mse_score_ae.png" width="500" />
+<!--   <img src="./images/mse_score_ae.png" width="500" />  --> 
   <img src="./images/mse_histo_ae.png" width="500" />
+  <img src="./images/ROC_mse.png" width="350" />
 </p>
 
 
