@@ -271,6 +271,105 @@ def plot_history(history):
     plt.tight_layout()
     plt.show()
 
+# ========================================================================================
+
+# Puoi aggiungere questo al tuo file src/trainer.py o definirlo nel notebook
+
+# Le classi Callback e EarlyStopping non hanno bisogno di modifiche
+# class Callback: ...
+# class EarlyStopping: ...
+
+class AutoencoderTrainer:
+    """
+    Trainer per addestrare modelli autoencoder.
+    """
+    def __init__(self, model, train_dl, val_dl, optimizer, criterion,
+                 device='cpu', callbacks=None, enable_wandb=False, wandb_config=None):
+        
+        self.model = model.to(device)
+        self.train_dl = train_dl
+        self.val_dl = val_dl
+        self.optimizer = optimizer
+        self.criterion = criterion
+        self.device = device
+        self.history = {'train_loss': [], 'val_loss': []}
+        
+        self.callbacks = callbacks if callbacks is not None else []
+        self._stop_training = False
+
+        # Logica W&B 
+        self.enable_wandb = enable_wandb
+        if self.enable_wandb:
+            wandb.init(**(wandb_config or {}))
+            wandb.watch(self.model, log="all", log_freq=100)
+
+    def _train_epoch(self, epoch_num):
+        self.model.train()
+        total_loss = 0.0
+        progress_bar = tqdm(self.train_dl, desc=f'Training Epoch {epoch_num}', leave=False)
+        
+        for xs, _ in progress_bar: # Non servono le etichette ys
+            xs = xs.to(self.device)
+            
+            _, x_rec = self.model(xs) # immagine ricostruita
+
+            loss = self.criterion(x_rec, xs) # Confronto ricostruita vs originale
+            
+            self.optimizer.zero_grad(set_to_none=True)
+            loss.backward()
+            self.optimizer.step()
+            total_loss += loss.item()
+            progress_bar.set_postfix(loss=f'{loss.item():.4f}')
+        
+        avg_loss = total_loss / len(self.train_dl)
+        self.history['train_loss'].append(avg_loss)
+        return avg_loss
+
+    def _evaluate(self, epoch_num):
+        self.model.eval()
+        total_val_loss = 0.0
+        with torch.no_grad():
+            for xs, _ in tqdm(self.val_dl, desc='Evaluating', leave=False):
+                xs = xs.to(self.device)
+                _, x_rec = self.model(xs)
+                loss = self.criterion(x_rec, xs)
+                total_val_loss += loss.item()
+        
+        avg_val_loss = total_val_loss / len(self.val_dl)
+        self.history['val_loss'].append(avg_val_loss)
+        return avg_val_loss
+
+    def fit(self, num_epochs):
+        print(f"Starting Autoencoder training for {num_epochs} epochs on device '{self.device}'...")
+        self._stop_training = False
+        
+        try:
+            for cb in self.callbacks: cb.on_train_begin(self)
+            
+            for epoch in range(1, num_epochs + 1):
+                self.current_epoch = epoch
+                train_loss = self._train_epoch(epoch)
+                val_loss = self._evaluate(epoch) 
+                
+                print(f"Epoch {epoch}/{num_epochs} | Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f}")
+
+                if self.enable_wandb:
+                    wandb.log({"train/loss": train_loss, "val/loss": val_loss, "epoch": epoch})
+                
+                for cb in self.callbacks: cb.on_epoch_end(self)
+                
+                if self._stop_training:
+                    print(f"Training stopped early at epoch {epoch}.")
+                    break
+        
+        finally:
+            if self.enable_wandb:
+                wandb.finish()
+                print("W&B run finished.")
+            
+        print("\n--- Training Complete ---")
+        return self.history
+
 
 # =========================================================================================
 
