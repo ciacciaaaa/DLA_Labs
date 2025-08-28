@@ -26,7 +26,7 @@ The idea is to develop a method that can discriminate CIFAR-10 images from rando
 
 The first detection strategy was based on the confidence score of a standard classifier. The idea is that a model should be highly confident when classifying an image from its training distribution (ID) and low confidence when presented with an unfamiliar OOD sample.
 
-To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, to measure its confidence on new images, the __maximum logit__ value from the model's final layer was used as a score. This method showed a separation between the score distributions for ID and OOD data as we can observe from the histogram. Then this separation ability was quantitatively measured using the Area Under the Receiver Operating Characteristic (__ROC__) curve, achieving an AUC score of __0.79__. This result confirms that model confidence can serve as a useful score for OOD detection.
+To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, to measure its confidence on new images, the __maximum logit__ value from the model's final layer was used as a score. This method showed a separation between the score distributions for ID and OOD data as we can observe from the histogram. Then this separation ability was quantitatively measured using the Area Under the Receiver Operating Characteristic (__ROC__) curve, achieving an AUC score of __0.84__. This result confirms that model confidence can serve as a useful score for OOD detection.
 
 <p float="center">
   <img src="./images/Logit_real_example.png" width="900" />
@@ -43,7 +43,7 @@ To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, 
 
 #### 2) OOD Detection via Reconstruction Error:
 
-An alternative approach was also investigated using an __Autoencoder__'s reconstruction error. An autoencoder is a specialized network trained to compress and then accurately reconstruct its input. The idea is that this network should be expert in reconstructing familiar CIFAR-10 images but struggle to reconstruct the random OOD images. The __Mean Squared Error (MSE)__ between an original image and its reconstruction was used as score. This method proved to work well, as the reconstruction errors for OOD samples were consistently higher than for ID samples. This method obtained an AUC score of __0.82__ .
+An alternative approach was also investigated using an __Autoencoder__'s reconstruction error. An autoencoder is a specialized network trained to compress and then accurately reconstruct its input. The idea is that this network should be expert in reconstructing familiar CIFAR-10 images but struggle to reconstruct the random OOD images. The __Mean Squared Error (MSE)__ between an original image and its reconstruction was used as score. This method proved to work well, as the reconstruction errors for OOD samples were consistently higher than for ID samples. This method obtained an AUC score of __0.94__ .
 
 <p float="center">
 <!--   <img src="./images/mse_score_ae.png" width="500" />  --> 
