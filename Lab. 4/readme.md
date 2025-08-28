@@ -16,16 +16,11 @@ This exercise explores the implementation and evaluation of a simple pipeline fo
 To create a clear OOD scenario, the CIFAR-10 dataset was chosen as the In-Distribution (ID) source, while for the Out-of-Distribution (OOD) data random noise images were generated using ```torchvision.datasets.FakeData```.
 
 <p float="center">
-  <figure>
-    <img src="./images/OOD_example.png" width="500" />
-    <figcaption align="center">OOD example</figcaption>
-  </figure>
-  <figure>
-    <img src="./images/ID_example.png" width="500" />
-    <figcaption align="center">ID example</figcaption>
-  </figure>
+  <img src="./images/OOD_example.png" width="500" />
+  <figcaption align="center">OOD example</figcaption>
+  <img src="./images/ID_example.png" width="500" />
+  <figcaption align="center">ID example</figcaption>
 </p>
-
 
 The idea is to develop a method that can discriminate CIFAR-10 images from random inputs using a model trained only on the ID data. To do so two distinct approaches were investigated:
 
