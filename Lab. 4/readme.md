@@ -38,7 +38,7 @@ To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, 
 <p float="center">
 <!-- <img src="./images/max_logit_score_cnn.png" width="400" />  --> 
   <img src="./images/max_logit_histo_cnn.png" width="500" />
-  <img src="./images/ROC_max_logit.png" width="500" />
+  <img src="./images/ROC_max_logit.png" width="300" />
 </p>
 
 #### 2) OOD Detection via Reconstruction Error:
