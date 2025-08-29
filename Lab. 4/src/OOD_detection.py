@@ -72,3 +72,27 @@ class Autoencoder(nn.Module):
         encoded = self.encoder(x)
         decoded = self.decoder(encoded)
         return encoded, decoded
+
+
+# ==========================================================
+
+def max_logit(logit):
+    s = logit.max(dim=1)[0] #get the max for each element of the batch
+    return s
+
+def max_softmax(logit, T=1.0):
+    s = F.softmax(logit/T, 1)
+    s = s.max(dim=1)[0] #get the max for each element of the batch
+    return s
+
+
+def compute_scores(data_loader, model, device, score_fun):
+    scores = []
+    with torch.no_grad():
+        for data in data_loader:
+            x, y = data
+            output = model(x.to(device))
+            s = score_fun(output)
+            scores.append(s)
+        scores_t = torch.cat(scores)
+        return scores_t

@@ -18,6 +18,27 @@ class AdversarialAttackerFGSM:
         self.criterion = criterion
         self.device = next(model.parameters()).device
 
+    def generate_batch_attack(self, x: torch.Tensor, y: torch.Tensor, epsilon: float = 8/255) -> torch.Tensor:
+        """
+        Genera un batch di esempi avversari con un singolo passo di FGSM (untargeted).
+        """
+        self.model.train()
+        x_adv = x.clone().detach().to(self.device)
+        y = y.to(self.device)
+        
+        x_adv.requires_grad = True
+        
+        output = self.model(x_adv)
+        loss = self.criterion(output, y)
+        self.model.zero_grad()
+        loss.backward()
+        
+        grad_sign = x_adv.grad.data.sign()
+        
+        x_adv = x_adv + epsilon * grad_sign
+        
+        return torch.clamp(x_adv, -1, 1).detach()    
+
     def attack(self, x: torch.Tensor, y: torch.Tensor, 
                epsilon: float = 8/255, 
                max_steps: int = 20, 
