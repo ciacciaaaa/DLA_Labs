@@ -106,4 +106,4 @@ These results are disappointing, highlighting the challenges of transferring a m
 In this exercise, we use Class Activation Maps (CAMs) to visualize which regions of an image a CNN attends to when making predictions. This technique helps understand the spatial focus of a trained network for discriminative classification. 
 For this specific purpose the [pytorch-grad-cam](https://github.com/jacobgil/pytorch-grad-cam) package was used. 
 
-![GradCam](./images/gradcam_2.png)
+![GradCam](./images/gradcam_3.png)
