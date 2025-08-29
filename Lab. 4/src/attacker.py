@@ -1,5 +1,3 @@
-# src/attacker.py
-
 import torch
 import torch.nn as nn
 from tqdm.notebook import tqdm
