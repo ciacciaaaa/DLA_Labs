@@ -16,14 +16,10 @@ This exercise explores the implementation and evaluation of a simple pipeline fo
 To create a clear OOD scenario, the CIFAR-10 dataset was chosen as the In-Distribution (ID) source, while for the Out-of-Distribution (OOD) data random noise images were generated using ```torchvision.datasets.FakeData```.
 
 
-<div style="text-align:center;">
-  <figure style="display:inline-block; margin-right:-10px; text-align:center;">
-    <img src="./images/OOD_example.png" width="300">
-  </figure>
-  <figure style="display:inline-block; text-align:center;">
-    <img src="./images/ID_example.png" width="300">
-  </figure>
-</div>
+<p align="center">
+  <img src="./images/OOD_example.png" width="300"/>
+  <img src="./images/ID_example.png" width="300"/>
+</p>
 
 The idea is to develop a method that can discriminate CIFAR-10 images from random inputs using a model trained only on the ID data. To do so two distinct approaches were investigated:
 
@@ -33,39 +29,29 @@ The first detection strategy was based on the confidence score of a standard cla
 
 To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, to measure its confidence on new images, the __maximum logit__ value from the model's final layer was used as a score. This method showed a separation between the score distributions for ID and OOD data as we can observe from the histogram. Then this separation ability was quantitatively measured using the Area Under the Receiver Operating Characteristic (__ROC__) curve, achieving an AUC score of __0.84__. This result confirms that model confidence can serve as a useful score for OOD detection.
 
-<div style="text-align:center;">
-  <figure style="display:inline-block; margin-right:-10px; text-align:center;">
-    <img src="./images/Logit_real_example.png" width="900" />
-  </figure>
-</div>
+<p align="center">
+  <img src="./images/Logit_real_example.png" width="900"/>
+</p>
 
-<div style="text-align:center;">  
-  <figure style="display:inline-block; margin-right:-10px; text-align:center;">
-    <img src="./images/Logit_fake_example.png" width="900" />
-  </figure>
-</div>
+<p align="center">
+  <img src="./images/Logit_fake_example.png" width="900"/>
+</p>
 
-<div style="text-align:center;">
-  <figure style="display:inline-block; margin-right:-10px; text-align:center;">
-    <img src="./images/max_logit_histo_cnn.png" width="500" />
-  </figure>
-  <figure style="display:inline-block; text-align:center;">
-    <img src="./images/ROC_max_logit.png" width="350" />
-  </figure>
-</div>
+<p align="center">
+  <img src="./images/max_logit_histo_cnn.png" width="500"/>
+  <img src="./images/ROC_max_logit.png" width="350"/>
+</p>
+
 
 #### 2) OOD Detection via Reconstruction Error:
 
 An alternative approach was also investigated using an __Autoencoder__'s reconstruction error. An autoencoder is a specialized network trained to compress and then accurately reconstruct its input. The idea is that this network should be expert in reconstructing familiar CIFAR-10 images but struggle to reconstruct the random OOD images. The __Mean Squared Error (MSE)__ between an original image and its reconstruction was used as score. This method proved to work well, as the reconstruction errors for OOD samples were consistently higher than for ID samples. This method obtained an AUC score of __0.94__ .
 
-<div style="text-align:center;">
-  <figure style="display:inline-block; margin-right:-10px; text-align:center;">
-    <img src="./images/mse_histo_ae.png" width="500" />
-  </figure>
-  <figure style="display:inline-block; text-align:center;">
-    <img src="./images/ROC_mse.png" width="350" />
-  </figure>
-</div>
+<p align="center">
+  <img src="./images/mse_histo_ae.png" width="500"/>
+  <img src="./images/ROC_mse.png" width="350"/>
+</p>
+
 
 
 ### Exercise 2.1: Implement FGSM and generate adversarial examples
@@ -85,16 +71,13 @@ Visually, the generated adversarial example was nearly identical to the original
 
 Quantitatively, the attack was highly successful. Despite the imperceptible visual change, the model's prediction completely shifted. The CNN, which had correctly classified the original image, confidently assigned the incorrect target label to the adversarial version. This outcome was achieved with a very small epsilon value, highlighting the model's sensitivity to carefully crafted input noise.
 
-<div style="text-align:center;">
-  <figure style="display:inline-block; margin-right:-10px; text-align:center;">
-    <img src="./images/ad_attack_example_cat_dog.png" width="500" />
-  </figure>
-</div>
-<div style="text-align:center;">
-  <figure style="display:inline-block; text-align:center;">
-    <img src="./images/ad_attack_example_horse_frog.png" width="500" />
-  </figure>  
-</div>
+<p align="center">
+  <img src="./images/ad_attack_example_cat_dog.png" width="500"/>
+</p>
+
+<p align="center">
+  <img src="./images/ad_attack_example_horse_frog.png" width="500"/>
+</p>
 
 ### Exercise 2.2: Augment training with adversarial examples
 
@@ -126,25 +109,19 @@ The data clearly reveals two key trends. First, for a small, fixed epsilon (2/25
 
 Epsilon ($\epsilon$) controls the "budget" or strength of the adversarial attack during training. A larger epsilon creates more aggressive and noticeable perturbations, forcing the model to learn to be robust against more significant distortions.
 
-<div style="text-align:center;">
-  <figure style="display:inline-block; margin-right:-10px; text-align:center;">
-    <img src="./images/robust_model_histo_0.8.png" width="500" />
-  </figure>
-  <figure style="display:inline-block; text-align:center;">
-    <img src="./images/robust_model_roc_0.8.png" width="395" />
-  </figure>
-</div>
+<p align="center">
+  <img src="./images/robust_model_histo_0.8.png" width="500"/>
+  <img src="./images/robust_model_roc_0.8.png" width="395"/>
+</p>
+
 
 As shown in the table, this has a profound negative effect on OOD detection. Simply doubling epsilon from 2/255 to 4/255 (while keeping epochs fixed at 15) caused the AUC score to drop from a reasonable **0.80** to a disastrous **0.32**. This drop in performance is best understood by visualizing the confidence score distributions for the high-epsilon case.
 
-<div style="text-align:center;">
-  <figure style="display:inline-block; margin-right:-10px; text-align:center;">
-    <img src="./images/robust_model_histo_0.32.png" width="500" />
-  </figure>
-  <figure style="display:inline-block; text-align:center;">
-    <img src="./images/robust_model_roc_0.32.png" width="395" />
-  </figure>
-</div>
+<p align="center">
+  <img src="./images/robust_model_histo_0.32.png" width="500"/>
+  <img src="./images/robust_model_roc_0.32.png" width="395"/>
+</p>
+
 
 The histogram clearly illustrates the problem. The distribution for OOD samples (orange, from `FakeData`) is shifted to the **right** of the distribution for ID samples (blue, from CIFAR-10). This indicates that the adversarially trained model is now **more confident** about random noise than it is about the actual data it was trained to classify.
 
@@ -164,13 +141,10 @@ An image from the CIFAR-10 test set, initially classified correctly by the model
 
 Qualitatively, the generated adversarial image remained visually identical to the original, with the perturbation being an imperceptible layer of noise. Quantitatively, the attack successfully fooled the model: the network, which was previously confident in the correct label, confidently and incorrectly classified the perturbed image as the specific target class.
 
-<div style="text-align:center;">
-  <figure style="display:inline-block; margin-right:-10px; text-align:center;">
-    <img src="./images/ad_attack_target_1.png" width="500" />
-  </figure>
-</div>
-<div style="text-align:center;">
-  <figure style="display:inline-block; text-align:center;">
-     <img src="./images/ad_attack_target_2.png" width="500" />
-  </figure>  
-</div>
+<p align="center">
+  <img src="./images/ad_attack_target_1.png" width="500"/>
+</p>
+
+<p align="center">
+  <img src="./images/ad_attack_target_2.png" width="500"/>
+</p>
