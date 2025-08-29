@@ -8,13 +8,13 @@ This laboratory explores two fundamental and interconnected concepts in modern m
 ## Project Structure
 The project is structured as follows:
 
-* src: contains all the source code.
+* __src__: contains all the source code.
   * trainer.py: handles training and callbacks (e.g., EarlyStopping).
   * OOD_detection.py: contains definitions of the primary models and function to compute OOD detection scores.
   * attacker.py: implements the AdversarialAttacker class for generating FGSM attacks.
-* models: stores the trained models.
-* images: contains images used for visualizations or examples.
-* data: contains all data.
+* __models__: stores the trained models.
+* __images__: contains images used for visualizations or examples.
+* __data__: contains all data.
 
 ## Exercises
 
