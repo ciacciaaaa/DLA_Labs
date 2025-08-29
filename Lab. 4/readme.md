@@ -4,7 +4,6 @@
 
 This laboratory explores two fundamental and interconnected concepts in modern machine learning: Out-of-Distribution (OOD) detection and robustness to adversarial attacks. The experiment is based on an image classification model, a Convolutional Neural Network (CNN), trained on the CIFAR-10 dataset, which is considered the "known" or In-Distribution (ID) data. The first part of the lab focuses on the model's ability to recognize anomalous (OOD) data, using randomly generated images. The second part introduces the concept of adversarial attacks by implementing the Fast Gradient Sign Method (FGSM) to create imperceptible perturbations that fool the model, in both targeted and untargeted modes, and then explore adversarial training.
 
-## Project Structure
 
 ## Project Structure
 The project is structured as follows:
