@@ -19,11 +19,9 @@ To create a clear OOD scenario, the CIFAR-10 dataset was chosen as the In-Distri
 <div style="text-align:center;">
   <figure style="display:inline-block; margin-right:-10px; text-align:center;">
     <img src="./images/OOD_example.png" width="300">
-    <figcaption>OOD example</figcaption>
   </figure>
   <figure style="display:inline-block; text-align:center;">
     <img src="./images/ID_example.png" width="300">
-    <figcaption>ID example</figcaption>
   </figure>
 </div>
 
@@ -38,14 +36,12 @@ To test this a __CNN__ was trained for 50 epochs on the CIFAR-10 dataset. Then, 
 <div style="text-align:center;">
   <figure style="display:inline-block; margin-right:-10px; text-align:center;">
     <img src="./images/Logit_real_example.png" width="900" />
-    <figcaption>OOD example</figcaption>
   </figure>
 </div>
 
 <div style="text-align:center;">  
   <figure style="display:inline-block; margin-right:-10px; text-align:center;">
     <img src="./images/Logit_fake_example.png" width="900" />
-    <figcaption>ID example</figcaption>
   </figure>
 </div>
 
@@ -93,6 +89,8 @@ Quantitatively, the attack was highly successful. Despite the imperceptible visu
   <figure style="display:inline-block; margin-right:-10px; text-align:center;">
     <img src="./images/ad_attack_example_cat_dog.png" width="500" />
   </figure>
+</div>
+<div style="text-align:center;">
   <figure style="display:inline-block; text-align:center;">
     <img src="./images/ad_attack_example_horse_frog.png" width="500" />
   </figure>  
@@ -170,6 +168,8 @@ Qualitatively, the generated adversarial image remained visually identical to th
   <figure style="display:inline-block; margin-right:-10px; text-align:center;">
     <img src="./images/ad_attack_target_1.png" width="500" />
   </figure>
+</div>
+<div style="text-align:center;">
   <figure style="display:inline-block; text-align:center;">
      <img src="./images/ad_attack_target_2.png" width="500" />
   </figure>  
