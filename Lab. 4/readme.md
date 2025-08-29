@@ -83,24 +83,15 @@ Quantitatively, the attack was highly successful. Despite the imperceptible visu
 
 This exercise explores the relationship between adversarial robustness and Out-of-Distribution (OOD) detection in deep learning models. The primary goal is to train a CNN on the CIFAR-10 dataset and then evaluate how its ability to detect OOD samples changes after being retrained with adversarial examples.
 
-The key experiments are:
-
-1.  Training a standard CNN on CIFAR-10 and evaluating its baseline OOD detection performance against random `FakeData`.
-2.  Implementing the Fast Gradient Sign Method (FGSM) to augment the training data "on the fly".
-3.  Training a new "robust" model on this augmented dataset.
-4.  Analyzing and explaining the significant change in OOD detection performance of the robust model.
-
-
 To improve model robustness against adversarial attacks, the training process was augmented with **adversarially perturbed** examples generated in real-time for each batch using the FGSM method. This new adversarially trained model is referred to as the *Robust model*.
 
 After performing several experiments by varying the number of training epochs and the perturbation strength __$\epsilon$__, the model's OOD detection performance was evaluated using the `max_logit` confidence score. The results, compared to the baseline non-adversarially trained model, are summarized below:
 
 | Model | Epsilon | Epochs | AUC |
 | :--- | :--- | :--- | :--- |
-| Baseline model | - | - | 0.84 |
+| Baseline model | -   | 16 | 0.84 |
 | Robust model | 2/255 | 15 | 0.80 |
 | Robust model | 2/255 | 25 | 0.74 |
-| Robust model | 2/255 | 10 | 0.54 |
 | Robust model | 4/255 | 15 | 0.32 |
 
 The data clearly reveals two key trends. First, for a small, fixed epsilon (2/255), increasing the duration of adversarial training generally leads to a gradual decrease in OOD detection capability (AUC drops from 0.80 to 0.74 as epochs increase from 15 to 25). Second, and more dramatically, the strength of the perturbation, `epsilon`, has a critical impact on performance.
