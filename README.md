@@ -66,4 +66,4 @@ Each laboratory follows a similar structure:
 This work was completed as part of academic laboratory exercises.
 Artificial Intelligence (AI) tools were used to provide **assistance in writing documentation** and to offer **suggestions for code structuring and clarity**. All experiments, implementations, and results were carried out by the authors.
 
-These laboratory exercises were carried out in collaboration and discussion with Alessandra Spinaci, which may result in some similarities in the analytical workflows. However, each participant independently developed their own interpretations, conclusions, and comments throughout the exercises.
+These laboratory exercises were carried out in collaboration and discussion with [Alessandra Spinaci](https://github.com/alessandraspin/Deep-Learning-Applications-Labs), which may result in some similarities in the analytical workflows. However, each participant independently developed their own interpretations, conclusions, and comments throughout the exercises.
