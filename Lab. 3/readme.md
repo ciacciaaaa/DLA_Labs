@@ -22,7 +22,6 @@ Throughout the exercises, we progressively build up from simple baselines to mor
     * Investigate different adaptation strategies (image encoder only, text encoder, or both).
     * Apply parameter-efficient fine-tuning to squeeze out additional performance gains.
 
-## Project Structure
 
 
 ## Exercises
