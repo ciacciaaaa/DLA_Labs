@@ -153,6 +153,9 @@ For each dataset, we prepared a set of text prompts corresponding to the class l
 
 During zero-shot experiments CLIP achieved very high accuracy on ImageNette (98.46%) but significantly lower performance on Tiny ImageNet (57.14%). For Tiny ImageNet the original WordNet IDs labels (e.g., n02106662, n01770393) were converted to human-interpretable labels, so the low performance is not due to unintelligible class names. CLIP performs extremely well on ImageNette (and ImageNet-like datasets) because it was pretrained on large-scale web image-text pairs, which cover general object categories with clear and descriptive labels, closely matching the classes in ImageNette. In contrast, Tiny ImageNet contains 64×64 pixel images, much smaller than those CLIP saw during pretraining, and includes 200 fine-grained, visually similar classes, making zero-shot classification much more challenging even with descriptive labels. These factors explain why zero-shot accuracy is substantially lower on Tiny ImageNet compared to ImageNette
 
+<p align="center">
+  <img src="./images/clip_zs_imagenet_examples.png" width="900"/>
+</p>
 
 After establishing the zero-shot performance baselines on two different datasets, the CLIP model was fine-tuned using parameter-efficient methods. The goal of this experiment was to evaluate how much additional classification performance could be gained compared to the initial zero-shot setup.
 The fine-tuning was performed using a popular and efficient PEFT technique called **LoRA (Low-Rank Adaptation)**. Instead of retraining all 150+ million parameters of the CLIP model, this method freezes the original weights and injects small, trainable "adapter" matrices into the attention layers of the vision encoder. This drastically reduces the number of trainable parameters, leading to faster training and lower memory requirements while still achieving strong performance.
