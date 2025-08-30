@@ -143,8 +143,6 @@ To better understand CLIP’s generalization abilities, we evaluated the model i
 
 * __Tiny ImageNet__: a 200-class dataset with smaller, lower-resolution images, making the classification task much harder. From HuggingFace's ```slegroux/tiny-imagenet-200-clean```
 
-* __Dataset 3 (to be defined)__: chosen to explore performance in a different image domain or distribution, in order to test CLIP’s robustness beyond ImageNet-like datasets.
-
 For each dataset, we prepared a set of text prompts corresponding to the class labels (e.g., __“a photo of a {class}”)_, extracted embeddings for both the images and the prompts, and classified each image by cosine similarity to the text embeddings. This allowed us to compare CLIP’s zero-shot performance across domains.
 
 
@@ -152,8 +150,35 @@ For each dataset, we prepared a set of text prompts corresponding to the class l
 | ------------- |---------- |-------------|
 | ImageNette    |10         |98.46     |
 | Tiny Imagenet |200        |57.14     |
-| Dataset 3.    |    ?      |     ?    |
 
 During zero-shot experiments CLIP achieved very high accuracy on ImageNette (98.46%) but significantly lower performance on Tiny ImageNet (57.14%). For Tiny ImageNet the original WordNet IDs labels (e.g., n02106662, n01770393) were converted to human-interpretable labels, so the low performance is not due to unintelligible class names. CLIP performs extremely well on ImageNette (and ImageNet-like datasets) because it was pretrained on large-scale web image-text pairs, which cover general object categories with clear and descriptive labels, closely matching the classes in ImageNette. In contrast, Tiny ImageNet contains 64×64 pixel images, much smaller than those CLIP saw during pretraining, and includes 200 fine-grained, visually similar classes, making zero-shot classification much more challenging even with descriptive labels. These factors explain why zero-shot accuracy is substantially lower on Tiny ImageNet compared to ImageNette
 
-After establishing these baselines, we fine-tuned CLIP (with parameter-efficient methods) to evaluate how much additional performance could be gained compared to the zero-shot setup. Fine-tuning experiments will focus on unfreezing only the image encoder (and optionally the text encoder) to keep computational costs low.
+
+After establishing the zero-shot performance baselines on two different datasets, the CLIP model was fine-tuned using parameter-efficient methods. The goal of this experiment was to evaluate how much additional classification performance could be gained compared to the initial zero-shot setup.
+The fine-tuning was performed using a popular and efficient PEFT technique called **LoRA (Low-Rank Adaptation)**. Instead of retraining all 150+ million parameters of the CLIP model, this method freezes the original weights and injects small, trainable "adapter" matrices into the attention layers of the vision encoder. This drastically reduces the number of trainable parameters, leading to faster training and lower memory requirements while still achieving strong performance.
+
+The key hyperparameters for the fine-tuning process were as follows:
+* **LoRA Configuration:**
+    * `r` (rank): 16
+    * `lora_alpha`: 32
+    * `target_modules`: `["q_proj", "v_proj", "k_proj"]`
+* **Training Hyperparameters:**
+    * `learning_rate`: 5e-5
+    * `epochs`: 3
+    * `batch_size`: 32-64 (depending on GPU memory)
+
+
+The table below compares the zero-shot accuracy with the final accuracy achieved after fine-tuning with LoRA on both datasets.
+
+| Dataset | n. classes | Zero-shot Accuracy (%) | Fine-Tuning Accuracy (%) | Improvement (%) |
+| :--- | :--- | :--- | :--- | :--- |
+| ImageNette | 10 | 98.46 | 98.89 | **+0.43** |
+| Tiny ImageNet | 200 | 57.14 | 68.26 | **+11.12** |
+
+The results demonstrate that fine-tuning with LoRA successfully improved performance on both datasets, but the magnitude of the improvement was highly dependent on the task complexity and the initial baseline performance:
+
+* **On ImageNette**: the baseline zero-shot accuracy was already exceptionally high at 98.46%, as the dataset is a small subset of ImageNet, which CLIP has effectively mastered during pre-training. Consequently, fine-tuning obtained a marginal but positive gain of **+0.43%**. This illustrates that when a pre-trained model is already highly proficient on a target domain, the potential for improvement through fine-tuning is limited.
+
+* **On Tiny ImageNet**: as more challenging dataset with 200 classes the baseline accuracy was significantly lower at 57.14%. On this task, fine-tuning provided a substantial performance boost of **+11.12%**. This highlights the effectiveness of LoRA fine-tuning in specializing the general-purpose features of CLIP for a more complex, multi-class classification problem where there is a larger gap to close between the baseline and optimal performance.
+
+Overall, this experiment confirms that PEFT methods like LoRA are a powerful and efficient tool for adapting large pre-trained models like CLIP to specific downstream tasks.

@@ -24,7 +24,7 @@ def zeroshot_clip(dataset, model_id="openai/clip-vit-base-patch16", batch_size=6
     Valuta CLIP in zero-shot sul dataset di validazione.
     Il dataset deve avere 'train' (per le classi) e 'validation'.
     """
-    
+
     classnames = dataset["train"].features["label"].names
     model = CLIPModel.from_pretrained(model_id).to(DEVICE).eval()
     processor = get_processor(model_id)
@@ -56,64 +56,6 @@ def zeroshot_clip(dataset, model_id="openai/clip-vit-base-patch16", batch_size=6
 
     return correct / total
 
-
-def finetune_clip(dataset, model_id="openai/clip-vit-base-patch16",
-                  batch_size=32, lr=1e-4, epochs=3, train_text_encoder=False):
-    """
-    Fine-tune CLIP in maniera parameter-efficient:
-    - train_text_encoder=False -> fine-tuning solo image encoder
-    - train_text_encoder=True -> fine-tuning anche text encoder
-    """
-    classnames = dataset["train"].features["label"].names
-    model = CLIPModel.from_pretrained(model_id).to(DEVICE)
-    processor = get_processor(model_id)
-
-    # Freeze tutti i parametri
-    for param in model.parameters():
-        param.requires_grad = False
-    # Sblocca image encoder
-    for param in model.vision_model.parameters():
-        param.requires_grad = True
-    # Sblocca text encoder solo se richiesto
-    if train_text_encoder:
-        for param in model.text_model.parameters():
-            param.requires_grad = True
-
-    loader = DataLoader(dataset["train"], batch_size=batch_size, shuffle=True,
-                        collate_fn=lambda batch: collate_images(batch, processor))
-
-    optimizer = torch.optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=lr)
-    loss_fn = torch.nn.CrossEntropyLoss()
-
-    # Prepara text embeddings
-    with torch.no_grad():
-        text_inputs = processor(
-            text=[f"a photo of a {c}" for c in classnames],
-            return_tensors="pt", padding=True
-        ).to(DEVICE)
-        text_embs = model.get_text_features(**text_inputs)
-        text_embs = text_embs / text_embs.norm(dim=-1, keepdim=True)
-
-    for epoch in range(epochs):
-        model.train()
-        total_loss = 0
-        for inputs, labels in tqdm(loader, desc=f"Epoch {epoch+1}/{epochs}"):
-            inputs = {k: v.to(DEVICE) for k, v in inputs.items()}
-            labels = labels.to(DEVICE)
-
-            img_embs = model.get_image_features(**inputs)
-            img_embs = img_embs / img_embs.norm(dim=-1, keepdim=True)
-
-            logits = img_embs @ text_embs.T
-            loss = loss_fn(logits, labels)
-
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-            total_loss += loss.item()
-        print(f"Epoch {epoch+1}, Loss: {total_loss/len(loader):.4f}")
-
-    return model
 
 def evaluate_clip(model, dataset, batch_size=64):
     """
@@ -147,3 +89,29 @@ def evaluate_clip(model, dataset, batch_size=64):
 
     return correct / total
 
+
+class CLIPForClassification(nn.Module):
+    def __init__(self, clip_model, num_labels):
+        super().__init__()
+        self.clip = clip_model
+        self.num_labels = num_labels
+        # testuale: class embeddings
+        self.classifier = nn.Linear(self.clip.config.projection_dim, num_labels, bias=False)
+
+    def forward(self, pixel_values=None, input_ids=None, attention_mask=None, labels=None):
+        # Otteniamo feature immagine
+        outputs = self.clip.vision_model(pixel_values=pixel_values)
+        pooled = outputs.pooler_output  # [batch, hidden_dim]
+
+        # Proiettiamo nello spazio CLIP
+        image_embeds = self.clip.visual_projection(pooled)
+
+        # Classificazione
+        logits = self.classifier(image_embeds)
+
+        loss = None
+        if labels is not None:
+            loss_fct = nn.CrossEntropyLoss()
+            loss = loss_fct(logits, labels)
+
+        return {"loss": loss, "logits": logits}
