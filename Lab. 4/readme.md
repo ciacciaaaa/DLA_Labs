@@ -66,7 +66,7 @@ An alternative approach was also investigated using an __Autoencoder__'s reconst
 
 ### Exercise 2.1: Implement FGSM and generate adversarial examples
 
-The goal is to implement **the Fast Gradient Sign Method (FGSM)** to generate an *adversarial example*: a slightly modified input image designed to be misclassified by the model, while remaining visually indistinguishable from the original to the human eye. 
+The goal is to implement the **Fast Gradient Sign Method (FGSM)** to generate an *adversarial example*: a slightly modified input image designed to be misclassified by the model, while remaining visually indistinguishable from the original to the human eye. 
 
 FGSM operates by performing a single-step perturbation on the input image. The core idea is to find the **direction** in the input space that will most increase the model's classification error. This direction is determined by calculating the **gradient** of the loss function with respect to the input image's pixels.
 
@@ -75,7 +75,7 @@ The attack then nudges each pixel in the direction indicated by the *sign* of it
 $$ \boldsymbol{\eta}(\mathbf{x}) = \varepsilon \mathrm{sign}(\nabla_{\mathbf{x}} \mathcal{L}(\boldsymbol{\theta}, \mathbf{x}, y)) ) $$
 
 
-The experiment began by selecting a correctly classified image from the CIFAR-10 test set. The trained CNN confidently assigned the correct label to this original image, establishing a baseline. The, the FGSM algorithm was applied to generate a perturbed, adversarial version of this same image.
+The experiment began by selecting a correctly classified image from the CIFAR-10 test set. The trained CNN confidently assigned the correct label to this original image, establishing a baseline. Then  the FGSM algorithm was applied to generate a perturbed, adversarial version of this same image.
 
 Visually, the generated adversarial example was nearly identical to the original image. The perturbation was so subtle that it was imperceptible to the human eye. By visualizing the mathematical difference between the original and adversarial images, the perturbation was revealed to be a noise-like pattern distributed across the entire image. 
 
