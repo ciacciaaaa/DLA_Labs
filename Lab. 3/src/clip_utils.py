@@ -24,11 +24,8 @@ def zeroshot_clip(dataset, model_id="openai/clip-vit-base-patch16", batch_size=6
     Valuta CLIP in zero-shot sul dataset di validazione.
     Il dataset deve avere 'train' (per le classi) e 'validation'.
     """
-
-    #label_column = "human_label" if "human_label" in dataset["train"].column_names else "label"
-    #classnames = dataset["train"].unique(label_column)
+    
     classnames = dataset["train"].features["label"].names
-
     model = CLIPModel.from_pretrained(model_id).to(DEVICE).eval()
     processor = get_processor(model_id)
 
