@@ -8,7 +8,7 @@ The labs progress from basic neural networks to transformers and robustness tech
 
 ---
 
-## Laboratory 1 – Neural Networks and Explainability
+## Laboratory 1 – Neural Networks
 
 The first lab introduces foundational deep learning models, starting with **Multilayer Perceptrons (MLPs)** and extending to **Convolutional Neural Networks (CNNs)**.
 Key themes include:
